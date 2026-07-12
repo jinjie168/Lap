@@ -22,7 +22,7 @@ let isDrawing = false;
 let lastPointerPos = null;
 
 // Ink constraint limits (画线墨水长度限制参数)
-const MAX_INK_LENGTH = 400; 
+const MAX_INK_LENGTH = 1000; 
 let currentInkLeft = MAX_INK_LENGTH;
 
 function initPhysicsWorld() {
@@ -201,4 +201,29 @@ function clearAllDrawnLines() {
     // Restore ink to full when line is wiped (重置线时自动恢复满能量条)
     currentInkLeft = MAX_INK_LENGTH;
     document.getElementById('ink-bar-fill').style.width = "100%";
-}
+      // Hook into Matter.js render pipeline to overlay a perfectly smooth canvas curve
+// 挂载到 Matter.js 渲染管线，在底层方块上方实时渲染一条真正丝滑无缝、带圆头的完美物理线条
+Events.on(render, 'afterRender', () => {
+    if (playerLines.length === 0) return;
+
+    let c = render.canvas;
+    let context = c.getContext('2d');
+
+    context.beginPath();
+    context.lineWidth = 14;          // Match the physical body thickness (匹配物理方块的厚度)
+    context.strokeStyle = '#ebd59b';  // Golden vine aesthetic color (金色笔迹颜色)
+    context.lineCap = 'round';       // Force round caps to smooth corners (强制圆角过渡，消灭锯齿)
+    context.lineJoin = 'round';      // Smooth out sharp bend joints (丝滑连接弯折处)
+
+    // Move to the start position of the first drawn segment
+    // 移至第一段画线物理方块的起点位置
+    context.moveTo(playerLines[0].position.x, playerLines[0].position.y);
+
+    // Smoothly draw lines across all rigid segment midpoints
+    // 顺着所有物理方块的中心点，用 Canvas 连成一条绝对光滑的实线
+    for (let i = 1; i < playerLines.length; i++) {
+        context.lineTo(playerLines[i].position.x, playerLines[i].position.y);
+    }
+    context.stroke();
+}，
+
