@@ -41,7 +41,7 @@ function switchToScene(sceneId) {
  */
 function startActualLevel(levelNum) {
     if (playerEnergy <= 0) {
-        alert("Out of energy! Watch an ad in lobby to recharge. (体力不足！快去大厅看个广告充满！)");
+        alert("Out of energy! Watch an ad in lobby to recharge");
         return;
     }
 
@@ -146,20 +146,20 @@ function triggerLobbyAd(adRewardType) {
     console.log("Triggering Lobby Ad Platform Alliance SDK...");
     
     // Play artificial ad block (模拟全屏视频广告播放)
-    alert("Watching commercial video ad... (正在观看广告，请保持耐心)");
+    alert("Watching commercial video ad...");
     
     setTimeout(() => {
         if (adRewardType === 'FREE_GOLD') {
             playerGold += 500;
             document.getElementById('gold-amount').innerText = playerGold;
-            alert("🪙 Gold rewarded successfully via ad! (+500 金币到账)");
+            alert("🪙 Gold rewarded successfully via ad!");
         }
     }, 1500);
 }
 
 function triggerGameplayAd(adRewardType) {
     if (adRewardType === 'REVIVE') {
-        alert("Rewinding time magic active via ad... (正在通过观看广告激活时间沙漏)");
+        alert("Rewinding time magic active via ad... ");
         
         setTimeout(() => {
             // Hide failure screen (关闭爆炸失败遮罩)
