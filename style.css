@@ -14,9 +14,12 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #1a1005; /* Fallback deep alchemist brown */
-    /* 2.5D Magic Room glow background (径向渐变，四周暗，中心亮，做出魔法屋质感) */
-    background: radial-gradient(circle, #342211 0%, #150a02 100%);
+    background-color: #120b1a; /* Fallback deep alchemist violet (深紫色备用背景) */
+    
+    /* Cosmic Alchemist Glow: Deep cosmic purple to midnight obsidian mystery gradient */
+    /* 高级魔幻紫渐变：中心是发光的神秘紫（#2c163f），向外扩散到午夜极暗紫黑（#0b0410），彻底告别死黑 */
+    background: radial-gradient(circle, #2c163f 0%, #170d22 60%, #0b0410 100%);
+    
     color: #f0e6d2;
 }
 
