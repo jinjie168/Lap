@@ -87,20 +87,24 @@ function continueDrawingLine(x, y) {
     let dist = Vector.magnitude(Vector.sub({x: x, y: y}, lastPointerPos));
     
     // Only spawn a segment if pointer moved significantly (防止生成过多点导致iPad卡顿)
-    if (dist > 12) {
+// Reduced distance threshold to 3 for silky smooth continuous lines
+    // 将距离阈值降低至 3，使线条绝对丝滑连续，不再一粒一粒
+    if (dist > 3) {
         let currentPos = { x: x, y: y };
         
-        // Create a small rigid physics rectangle segment (创建一个具有真实碰撞和摩擦力的物理长方体线段)
+        let Math_atan2 = Math.atan2;
         let midPoint = Vector.div(Vector.add(lastPointerPos, currentPos), 2);
-        let angle = Math.atan2(currentPos.y - lastPointerPos.y, currentPos.x - lastPointerPos.x);
+        let angle = Math_atan2(currentPos.y - lastPointerPos.y, currentPos.x - lastPointerPos.x);
         
-        let lineSegment = Bodies.rectangle(midPoint.x, midPoint.y, dist + 2, 6, {
-            isStatic: false,       // Hardcore feature: Lines are NOT frozen! They can collapse under fluid weight!
-                                   // 硬核机制：线条具有实体重量，药水太重时会往下压塌塌陷！
+        // Increased thickness to 14 and overlap to prevent liquid leaking
+        // 将厚度增加至 14 并使线段重叠，彻底防止液体从缝隙中漏出
+        let lineSegment = Bodies.rectangle(midPoint.x, midPoint.y, dist + 6, 14, {
+            isStatic: false,       
             density: 0.05,
             friction: 0.1,
+            angle: angle, // Fixed: Applied correct rotation angle for seamless connection
             label: 'player_line',
-            render: { fillStyle: '#ebd59b', strokeStyle: '#ffdf7a', lineWidth: 1 } // Antique gold vine aesthetic (复古金色藤蔓视觉)
+            render: { fillStyle: '#ebd59b', strokeStyle: '#ffdf7a', lineWidth: 1 } 
         });
 
         playerLines.push(lineSegment);
