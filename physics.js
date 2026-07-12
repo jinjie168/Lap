@@ -66,15 +66,18 @@ function spawnSolidAnchors() {
 
     // Create a metallic static brass ring/peg (创建一个固定的圆形金属桩)
     let anchor = Bodies.circle(centerX, centerY, 25, {
-        isStatic: true, // TRUE means it is absolutely frozen in space (固定在空中，无法被推开)
+        isStatic: true, 
         label: 'solid_anchor',
+        // Restored: Added deep royal glowing aesthetic
+        // 恢复：注入黄铜古董发光特效，让线挂上去时更有高级感
         render: {
             fillStyle: '#c9a054',
             strokeStyle: '#ffdf7a',
-            lineWidth: 3
+            lineWidth: 3,
+            shadowBlur: 20,
+            shadowColor: '#ffdf7a'
         }
     });
-
     staticAnchors.push(anchor);
     Composite.add(engine.world, anchor);
 }
@@ -155,7 +158,15 @@ function spawnGreenPotion(x, y) {
         friction: 0.02,
         restitution: 0.4, 
         label: 'element_green',
-        render: { fillStyle: '#52d69b' }
+        // Restored: Epic high-end chemical glowing filters
+        // 恢复：绿色高级魔法发光滤镜，绝不偷工减料
+        render: { 
+            fillStyle: '#52d69b',
+            strokeStyle: '#a9f5d4',
+            lineWidth: 1,
+            shadowBlur: 15,
+            shadowColor: '#52d69b'
+        }
     });
     liquidParticles.push(greenBall);
     Composite.add(engine.world, greenBall);
