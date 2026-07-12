@@ -170,7 +170,7 @@ function triggerGameplayAd(adRewardType) {
             liquidParticles.forEach(p => Composite.remove(engine.world, p));
             liquidParticles = [];
             
-            alert("⏳ Time rewound! Lines preserved. You can edit and press START REACTION again! (时空已倒流！画线已保留，请修改并重新点击开始！)");
+            alert("⏳ Time rewound! Lines preserved. You can edit and press START REACTION again!");
         }, 1500);
     }
 }
