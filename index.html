@@ -84,6 +84,12 @@
         <!-- 游戏内的关卡目标显示（如：调配80%纯度绿色药水） -->
         <div class="game-hud">
             <button class="btn-back" onclick="exitCurrentLevel()">🏳 Quit</button>
+            <div class="ink-container">
+                <span class="ink-label">INK:</span>
+                <div class="ink-bar-bg">
+                    <div id="ink-bar-fill" style="width: 100%;"></div>
+                </div>
+            </div>
             <div class="target-badge">
                 Target: <span id="target-requirement">80% Green</span>
             </div>
