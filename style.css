@@ -207,8 +207,25 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 10; /* Keep HUD above physics canvas */
+    z-index: 10;
+    width: 100%;
 }
+
+/* Ink Limit Bar UI Styling (画线限制进度条的高级金边样式) */
+.ink-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: 1px solid #c9a054;
+    flex-grow: 0.5;
+    max-width: 300px;
+}
+.ink-label { font-weight: bold; color: #ffdf7a; font-size: 0.9rem; }
+.ink-bar-bg { background: #221100; width: 100%; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #443311; }
+#ink-bar-fill { background: linear-gradient(90deg, #ffdf7a 0%, #b8860b 100%); height: 100%; width: 100%; transition: width 0.1s ease; }
 
 .target-badge {
     background: rgba(18, 11, 5, 0.8);
