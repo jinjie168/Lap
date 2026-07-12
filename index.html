@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Alchemist's Lab: Forbidden Elements</title>
+    <!-- Link to our upcoming custom CSS style file -->
+    <!-- 链接到我们接下来要写的自定义CSS样式文件 -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Include Matter.js for high-fidelity 2D physics simulation -->
+    <!-- 引入Matter.js物理引擎，用于高精度的2D重力和碰撞模拟 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- LAYER 1: OUTSIDE - MAIN LOBBY (外层：主大厅工坊) -->
+    <!-- ========================================== -->
+    <div id="main-lobby" class="game-layer">
+        <!-- Top bar for player currency and stats -->
+        <!-- 顶栏：显示玩家的魔法金币和体力值 -->
+        <div class="top-bar">
+            <div class="currency-container">
+                <span class="icon">🪙</span>
+                <span id="gold-amount">500</span>
+            </div>
+            <div class="currency-container">
+                <span class="icon">⚡</span>
+                <span id="energy-amount">5/5</span>
+            </div>
+        </div>
+
+        <!-- Center piece: The Alchemy Workshop Title & Upgradeable Pot -->
+        <!-- 核心视觉：炼金工坊标题与可升级的炼金炉 -->
+        <div class="lobby-center">
+            <h1 class="game-title">ALCHEMIST'S LAB</h1>
+            <p class="game-subtitle">Forbidden Elements</p>
+            <div id="lobby-cauldron-avatar" class="cauldron-preview">🔮</div>
+        </div>
+
+        <!-- Bottom Navigation & Ad Reward Buttons -->
+        <!-- 底部导航与广告变现奖励按钮 -->
+        <div class="lobby-actions">
+            <!-- Commercial Ad button to get free gold -->
+            <!-- 商业广告按钮：看广告免费拿500金币 -->
+            <button id="btn-free-gold" class="btn-ad" onclick="triggerLobbyAd('FREE_GOLD')">
+                <span class="ad-icon">🎬</span> Get Free Gold (+500)
+            </button>
+            
+            <!-- Main entry button to enter the puzzle levels -->
+            <!-- 主核心按钮：进入关卡选择（进入“里面”） -->
+            <button id="btn-enter-lab" class="btn-primary" onclick="switchToScene('level-selection')">
+                ENTER LAB
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- LAYER 2: INTERMEDIATE - LEVEL SELECTION (中层：关卡选择) -->
+    <!-- ========================================== -->
+    <div id="level-selection" class="game-layer hidden">
+        <div class="menu-header">
+            <button class="btn-back" onclick="switchToScene('main-lobby')">⬅ Back</button>
+            <h2>Select Chapter</h2>
+        </div>
+        <!-- Level grid list, will be populated dynamically via JavaScript -->
+        <!-- 关卡网格列表，后续通过JavaScript动态生成 -->
+        <div class="level-grid">
+            <button class="level-node completed" onclick="startActualLevel(1)">1</button>
+            <button class="level-node current" onclick="startActualLevel(2)">2</button>
+            <button class="level-node locked" disabled>3</button>
+            <button class="level-node locked" disabled>4</button>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- LAYER 3: INSIDE - GAMEPLAY ARENA (内层：核心游戏关卡战场) -->
+    <!-- ========================================== -->
+    <div id="gameplay-arena" class="game-layer hidden">
+        <!-- In-game HUD score and targets -->
+        <!-- 游戏内的关卡目标显示（如：调配80%纯度绿色药水） -->
+        <div class="game-hud">
+            <button class="btn-back" onclick="exitCurrentLevel()">🏳 Quit</button>
+            <div class="target-badge">
+                Target: <span id="target-requirement">80% Green</span>
+            </div>
+        </div>
+
+        <!-- The actual Canvas where Matter.js draws fluid drops, cups, slimes and player lines -->
+        <!-- 核心物理画布：Matter.js在此渲染水滴、活体圣杯、移动史莱姆和玩家画的线 -->
+        <canvas id="physics-canvas"></canvas>
+
+        <!-- Dynamic controls inside the level -->
+        <!-- 关卡内的动态控制台 -->
+        <div class="game-controls">
+            <!-- Clear drawn lines if player messes up -->
+            <!-- 如果画线画歪了，玩家可以一键清除重新画 -->
+            <button id="btn-clear-lines" class="btn-secondary">🧹 Clear Lines</button>
+            <!-- Triggers the fluid simulation to drop -->
+            <!-- 点击开始炼金反应，释放液体开始下落物理计算 -->
+            <button id="btn-start-reaction" class="btn-action">🧪 START REACTION</button>
+        </div>
+
+        <!-- Rewarded Ad Overlay UI when game fails (Revive Mechanism) -->
+        <!-- 游戏失败时的激励广告复活遮罩层 UI -->
+        <div id="revive-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🧪 LAB EXPLODED!</h2>
+                <p>Potion impurity too high. Use time hourglass to rewind?</p>
+                <p class="hint-text">(药水纯度不足引发爆炸。是否使用时间沙漏倒流？)</p>
+                <!-- Watch Ad to Revive and get a second chance -->
+                <!-- 观看广告获得复活和第二次修改画线的机会 -->
+                <button class="btn-ad-large" onclick="triggerGameplayAd('REVIVE')">
+                    🎬 Rewind Time 5s (Watch Ad)
+                </button>
+                <button class="btn-text-only" onclick="resetLevelEntirely()">No, Restart Level</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to our core game controller and physics logic scripts -->
+    <!-- 链接到我们的核心游戏控制逻辑与物理引擎处理脚本 -->
+    <script src="physics.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
